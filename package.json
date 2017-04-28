@@ -1,0 +1,28 @@
+{
+    "name": "@idrinth/automatic-formatting",
+    "homepage": "https://github.com/idrinth/automatic/formatting",
+    "bugs": "https://github.com/idrinth/automatic/formatting/issues",
+    "description": "A tool to reformat javascript projects on github",
+    "license": "MIT",
+    "version": "1.0.0",
+    "keywords": [
+        "formatting",
+        "prettier",
+        "server"
+    ],
+    "repository": {
+        "type":"git",
+        "url": "https://github.com/Idrinth/automatic-formatting.git"
+    },
+    "author": "Björn Büttner",
+    "contributors": [],
+    "dependencies": {
+        "fs": "*",
+        "nodegit": "*",
+        "prettier": "*",
+        "fs-extra": "*"
+    },
+    "scripts": {
+        "start": "node main.js"
+    }
+}
