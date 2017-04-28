@@ -1,7 +1,7 @@
 {
     "name": "@idrinth/automatic-formatting",
-    "homepage": "https://github.com/idrinth/automatic/formatting",
-    "bugs": "https://github.com/idrinth/automatic/formatting/issues",
+    "homepage": "https://github.com/idrinth/automatic-formatting",
+    "bugs": "https://github.com/idrinth/automatic-formatting/issues",
     "description": "A tool to reformat javascript projects on github",
     "license": "MIT",
     "version": "1.0.0",
@@ -20,9 +20,12 @@
         "fs": "*",
         "nodegit": "*",
         "prettier": "*",
-        "fs-extra": "*"
+        "fs-extra": "*",
+        "express": "*",
+        "crypto": "*",
+        "buffer-equal-constant-time": "*"
     },
     "scripts": {
-        "start": "node main.js"
+        "start": "node index.js"
     }
 }
