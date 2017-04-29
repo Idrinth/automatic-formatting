@@ -6,13 +6,14 @@ function sleep(time) {
         ;
     }
 }
-fm = function ( dir ) {
+fm = function ( dir ,base) {
+    base=base?base:dir;
     var files = fs.readdirSync ( dir );
     var modified = [];
     for (var pos = files.length - 1; pos >= 0; pos--) {
         var file = dir + '/' + files[pos];
         if ( fs.statSync ( file ).isDirectory () && !file.match ( /\.git$/ ) ) {
-            modified.concat(fm ( file ));
+            modified.concat(fm ( file, base ));
         } else if ( file.match ( /\.js$/ ) ) {
             var content = fs.readFileSync ( file ).toString ();
             if ( !prettier.check ( content ) ) {
@@ -20,7 +21,7 @@ fm = function ( dir ) {
                 while(!prettier.check ( fs.readFileSync ( file ).toString () )) {
                     sleep(2);
                 }
-                modified.push(file);
+                modified.push(file.replace (new RegExp("^"+base.replace(/\//,'\/')+'\/'),''));
             }
         }
     }

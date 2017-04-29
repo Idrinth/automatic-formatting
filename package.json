@@ -18,9 +18,10 @@
     "contributors": [],
     "dependencies": {
         "fs": "*",
+        "promised-io": "*",
+        "promise": "*",
         "nodegit": "*",
         "prettier": "*",
-        "fs-extra": "*",
         "express": "*",
         "crypto": "*",
         "buffer-equal-constant-time": "*"
