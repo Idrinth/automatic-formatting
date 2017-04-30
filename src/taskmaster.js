@@ -2,14 +2,16 @@ var taskmaster = {
     tasks:{},
     inPr:{},
     toAdd:[],
-    format: function(repository,branch){
-        console.log("Formatting "+repository+" for "+branch);
-        require('timers').setTimeout(function(){taskmaster.active=false;},Number.parseInt(Math.random()*50000));
+    format: function(repository,branch,commit){
+        require('work')(creds,repository,branch,commit);
     },
     active:false,
     add: function(repo,event,signature,body) {
         function signBlob (key, blob) {
           return 'sha1=' + require('crypto').createHmac('sha1', key).update(blob).digest('hex');
+        }
+        if(!secrets || !secrets[repo]) {
+            return;
         }
         if(event!=='pull_request'&&event!=='push') {
             return;
@@ -47,7 +49,8 @@ var taskmaster = {
         for(var c = 0;c<pushes.length;c++) {
             var data = pushes[c];
             if(taskmaster.inPr[data.repository.full_name][data.pull_request.head.ref]) {
-                taskmaster.tasks[data.repository.full_name+'|'+data.pull_request.head.ref]=true;
+                taskmaster.tasks[data.repository.full_name+'|'+data.pull_request.head.ref]=data.head;
+                require("gitstatus").pending(data.repository.full_name,data.pull_request.head.ref,data.head);
             }
         }
         var run = function() {
@@ -55,10 +58,11 @@ var taskmaster = {
                 if(!taskmaster.inPr[id.split('|')[0]]||!taskmaster.inPr[id.split('|')[0]][id.split('|')[1]]) {
                     delete taskmaster.tasks[id];
                 } else {
+                    var commit = taskmaster.tasks[id];
                     delete taskmaster.tasks[id];
                     taskmaster.active=true;
                     try{
-                        taskmaster.format(id.split('|')[0],id.split('|')[1]);
+                        taskmaster.format(id.split('|')[0],id.split('|')[1],commit);
                         return;
                     } catch(e) {
                         console.log(e);

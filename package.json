@@ -18,8 +18,7 @@
     "contributors": [],
     "dependencies": {
         "fs": "*",
-        "promised-io": "*",
-        "promise": "*",
+        "https": "*",
         "nodegit": "*",
         "prettier": "*",
         "express": "*",
@@ -27,6 +26,6 @@
         "buffer-equal-constant-time": "*"
     },
     "scripts": {
-        "start": "node main.js"
+        "start": "node index.js"
     }
 }

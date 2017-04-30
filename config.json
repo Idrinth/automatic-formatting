@@ -1,0 +1,12 @@
+{
+    "user": {
+        "login": "idrinth",
+        "password": "",
+        "name": "Björn Büttner",
+        "email": "Idrinth@users.noreply.github.com"
+    },
+    "port": 33000,
+    "secrets": {
+        "IDotD/Userscript": ""
+    }
+}

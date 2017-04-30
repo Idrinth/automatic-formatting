@@ -1,10 +1,11 @@
 var nodegit = require("nodegit");
+var gitstatus = require("gitstatus");
+module.exports = function(creds,project,branch,commit) {
 function sleep(time) {
   var stop = new Date().getTime();
   while (new Date().getTime() < stop + time) {
   }
 }
-var creds = nodegit.Cred.userpassPlaintextNew("idrinth", "");
 var credO = {
   callbacks: {
     credentials: function() {
@@ -12,8 +13,6 @@ var credO = {
     }
   }
 };
-project = "Idrinth/automatic-formatting";
-branch = "test";
 var handler = function(repo) {
   while (
     !require("fs").existsSync(
@@ -26,11 +25,13 @@ var handler = function(repo) {
   var files = require("./src/recursive-format")(
     "repository/" + project + "/" + branch
   );
-  console.log(files);
-  var bot = nodegit.Signature.now(
-    "Björn Büttner",
-    "Idrinth@users.noreply.github.com"
-  );
+  if(files.length>0) {
+      gitstatus.failure (project,commit);
+  } else {
+      gitstatus.success (project,commit);
+      taskmaster.active = false;
+      return;
+  }
   repo
     .createCommitOnHead(files, bot, bot, "prettyfiing branch")
     .then(function(oid) {
@@ -41,10 +42,14 @@ var handler = function(repo) {
       return repo.getBranch(branch);
     })
     .then(function(branch) {
-      console.log(branch.toString());
+      taskmaster.active = false;
       return Ref.push([branch.toString() + ":" + branch.toString()], credO);
     });
 };
+function onError(exception) {
+    taskmaster.active = false;
+    console.log(exception);
+}
 if (require("fs").existsSync("repository/" + project + "/" + branch)) {
   nodegit.Repository
     .open("repository/" + project + "/" + branch)
@@ -57,7 +62,7 @@ if (require("fs").existsSync("repository/" + project + "/" + branch)) {
       return repo;
     })
     .then(handler)
-    .catch(console.log);
+    .catch(onError);
 } else {
   nodegit
     .Clone(
@@ -77,5 +82,6 @@ if (require("fs").existsSync("repository/" + project + "/" + branch)) {
       return repo;
     })
     .then(handler)
-    .catch(console.log);
+    .catch(onError);
 }
+};
