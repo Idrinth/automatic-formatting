@@ -9,7 +9,7 @@ function sleep(time) {
 var credO = {
   callbacks: {
     credentials: function() {
-      return require("app-settings").creds;
+      return require("app-config").creds;
     }
   }
 };

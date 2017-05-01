@@ -1,4 +1,4 @@
-var secrets = require('app-settings').secrets;
+var secrets = require('app-config').secrets;
 var taskmaster = {
     tasks:{},
     inPr:{},
