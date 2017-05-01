@@ -1,5 +1,5 @@
 module.exports = function(app, taskmaster) {
-app.use (require('body-parser').json());
+app.use (require('body-parser').raw({type:"*/*"}));
 app.get("/", (request, response) => {
   require("fs").readFile("home.html", function(err, data) {
     if (err) {
@@ -21,7 +21,7 @@ app.post("/:user/:repository", (request, response) => {
     request.get("X-Hub-Signature"),
     request.body
   );
-  response.send(JSON.stringify(taskmaster.tasks));
+  response.send(JSON.stringify(true));
 });
 app.post("/|/[^/]+|/[^/]+/[^/]+/.+", (request, response) => {
   response.append("Location", "/");
