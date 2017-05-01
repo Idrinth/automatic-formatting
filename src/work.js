@@ -1,6 +1,6 @@
 var nodegit = require("nodegit");
 var gitstatus = require("gitstatus");
-module.exports = function(creds,project,branch,commit) {
+module.exports = function(project,branch,commit) {
 function sleep(time) {
   var stop = new Date().getTime();
   while (new Date().getTime() < stop + time) {
@@ -9,7 +9,7 @@ function sleep(time) {
 var credO = {
   callbacks: {
     credentials: function() {
-      return creds;
+      return require("settings").creds;
     }
   }
 };

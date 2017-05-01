@@ -1,4 +1,5 @@
 var https = require("https");
+var user = require("settings").user;
 var request = function(repo, commit, message,status) {
     var data = JSON.stringify( {
         state: status,
@@ -10,7 +11,7 @@ var request = function(repo, commit, message,status) {
         hostname: "api.github.com",
         path: "/repos/"+repo+"/statuses/"+commit,
         method: "POST",
-        auth: setup.user.login+':'+setup.user.password,
+        auth: user.login+':'+user.password,
         headers:{
             "Content-Type": "application/json",
             "Content-Length": data.length,

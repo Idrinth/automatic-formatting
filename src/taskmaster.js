@@ -1,9 +1,10 @@
+var secrets = require("settings").secrets;
 var taskmaster = {
     tasks:{},
     inPr:{},
     toAdd:[],
     format: function(repository,branch,commit){
-        require('work')(creds,repository,branch,commit);
+        require('work')(repository,branch,commit);
     },
     active:false,
     add: function(repo,event,signature,body) {

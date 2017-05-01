@@ -1,4 +1,4 @@
-module.exports = function(app, port, taskmaster) {
+module.exports = function(app, taskmaster) {
 
 app.get("/", (request, response) => {
   require("fs").readFile("home.html", function(err, data) {
@@ -29,7 +29,7 @@ app.post("/|/[^/]+|/[^/]+/[^/]+/.+", (request, response) => {
   response.send("Not here...");
 });
 
-app.listen(port, err => {
+app.listen(require("settings").port, err => {
   if (err) {
     return console.log("something bad happened", err);
   }
