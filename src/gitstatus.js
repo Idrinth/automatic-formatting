@@ -16,7 +16,7 @@ var request = function(repo, commit, message,status) {
             "Content-Type": "application/json",
             "Content-Length": data.length,
             "Accept": "application/vnd.github.v3+json",
-            "Useragent": "Idrinth/automatic-formatting"
+            "User-Agent": "Idrinth/automatic-formatting"
         },
         agent: false
     });
