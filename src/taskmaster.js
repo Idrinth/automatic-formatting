@@ -1,4 +1,4 @@
-var secrets = require('app-config').secrets;
+var secrets = require('./app-config').secrets;
 var taskmaster = {
     tasks:{},
     inPr:{},
@@ -48,7 +48,7 @@ var taskmaster = {
             var data = pushes[c];
             if(taskmaster.inPr[data.repository.full_name][data.pull_request.head.ref]) {
                 taskmaster.tasks[data.repository.full_name+'|'+data.pull_request.head.ref]=data.head;
-                require("gitstatus").pending(data.repository.full_name,data.pull_request.head.ref,data.head);
+                require("./gitstatus").pending(data.repository.full_name,data.pull_request.head.ref,data.head);
             }
         }
         var run = function() {

@@ -1,5 +1,5 @@
 var nodegit = require("nodegit");
-var gitstatus = require("gitstatus");
+var gitstatus = require("./gitstatus");
 module.exports = function(project,branch,commit) {
 function sleep(time) {
   var stop = new Date().getTime();
@@ -9,7 +9,7 @@ function sleep(time) {
 var credO = {
   callbacks: {
     credentials: function() {
-      return require("app-config").creds;
+      return require("./app-config").creds;
     }
   }
 };

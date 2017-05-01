@@ -29,7 +29,7 @@ app.post("/|/[^/]+|/[^/]+/[^/]+/.+", (request, response) => {
   response.send("Not here...");
 });
 
-app.listen(require("app-config").port, err => {
+app.listen(require("./app-config").port, err => {
   if (err) {
     return console.log("something bad happened", err);
   }
