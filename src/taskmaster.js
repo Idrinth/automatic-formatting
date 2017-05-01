@@ -48,7 +48,7 @@ var taskmaster = {
             var data = pushes[c];
             if(taskmaster.inPr[data.repository.full_name][data.ref.split('/')[2]]) {
                 taskmaster.tasks[data.repository.full_name+'|'+data.ref.split('/')[2]]=data.head;
-                require("./gitstatus").pending(data.repository.full_name,data.ref.split('/')[2]);
+                require("./gitstatus").pending(data.repository.full_name,data.head);
             }
         }
         var run = function() {
