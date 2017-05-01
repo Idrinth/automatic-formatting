@@ -1,5 +1,5 @@
 module.exports = function(app, taskmaster) {
-
+app.use (require('body-parser').json());
 app.get("/", (request, response) => {
   require("fs").readFile("home.html", function(err, data) {
     if (err) {

@@ -23,7 +23,8 @@
         "prettier": "*",
         "express": "*",
         "crypto": "*",
-        "buffer-equal-constant-time": "*"
+        "buffer-equal-constant-time": "*",
+        "body-parser":"*"
     },
     "scripts": {
         "start": "node index.js"

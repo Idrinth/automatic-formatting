@@ -14,7 +14,7 @@ var taskmaster = {
         if(event!=='pull_request'&&event!=='push') {
             return;
         }
-        if (!require('buffer-equal-constant-time')(new Buffer(signature), new Buffer(signBlob(secrets[repo], body)))&&false) {
+        if (!require('buffer-equal-constant-time')(new Buffer(signature), new Buffer(signBlob(secrets[repo], body)))) {
             return;
         }
         taskmaster.toAdd.push([event,body]);
@@ -26,7 +26,7 @@ var taskmaster = {
             taskmaster.toAdd=[];
             for(var c=0;c<toAdd.length;c++) {
                 try{
-                    var data = JSON.parse(toAdd[c][1]);
+                    var data = toAdd[c][1];
                     if(toAdd[c][0]==='pull_request') {
                         if(data.action === "opened" || data.action==="reopened") {
                             taskmaster.inPr[data.repository.full_name]=taskmaster.inPr[data.repository.full_name]?taskmaster.inPr[data.repository.full_name]:{};
