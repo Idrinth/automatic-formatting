@@ -1,5 +1,5 @@
 var https = require("https");
-var user = require("settings").user;
+var user = require("app-settings").user;
 var request = function(repo, commit, message,status) {
     var data = JSON.stringify( {
         state: status,

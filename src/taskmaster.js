@@ -1,11 +1,8 @@
-var secrets = require("settings").secrets;
+var secrets = require('app-settings').secrets;
 var taskmaster = {
     tasks:{},
     inPr:{},
     toAdd:[],
-    format: function(repository,branch,commit){
-        require('work')(repository,branch,commit);
-    },
     active:false,
     add: function(repo,event,signature,body) {
         function signBlob (key, blob) {
@@ -63,7 +60,7 @@ var taskmaster = {
                     delete taskmaster.tasks[id];
                     taskmaster.active=true;
                     try{
-                        taskmaster.format(id.split('|')[0],id.split('|')[1],commit);
+                        require('./work')(id.split('|')[0],id.split('|')[1],commit);
                         return;
                     } catch(e) {
                         console.log(e);
