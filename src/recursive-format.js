@@ -1,6 +1,6 @@
 fs = require ( "fs" );
 prettier = require ( "prettier" );
-format = require("./config").prettier;
+format = require("./app-config").prettier;
 function sleep(time) {
     var stop = new Date().getTime();
     while(new Date().getTime() < stop + time) {
