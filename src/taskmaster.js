@@ -30,7 +30,9 @@ var taskmaster = {
   },
   remove: function(body) {
     try {
-      var data = JSON.parse(body);
+      var data = JSON.parse
+      (body
+              );
       if (data.ref_type !== "branch") {
         return;
       }
