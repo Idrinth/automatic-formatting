@@ -45,9 +45,10 @@ var taskmaster = {
           "/" +
           data.ref
       );
-      require("fs-extra").emptyDir(
+      var fse = require("fs-extra");
+      fse.remove(
         "repository/" + data.repository.full_name + "/" + data.ref
-      ).catch(debug);
+      ).then(function(){debug ("Removed repository/" + data.repository.full_name + "/" + data.ref);}).catch(debug);
     } catch (exception) {
       console.log(exception);
     }
