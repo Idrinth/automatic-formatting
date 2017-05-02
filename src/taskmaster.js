@@ -46,21 +46,18 @@ var taskmaster = {
         var pushes = getNewPushes();
         for(var c = 0;c<pushes.length;c++) {
             var data = pushes[c];
-            if(taskmaster.inPr[data.repository.full_name][data.ref.split('/')[2]]) {
-                taskmaster.tasks[data.repository.full_name+'|'+data.ref.split('/')[2]]=data.head_commit.id;
-                require("./gitstatus").pending(data.repository.full_name,data.head_commit.id);
-            }
+            var name = data.repository.full_name;
+            taskmaster.tasks[name+'|'+data.ref.split('/')[2]]=data.head_commit.id;
+            require("./gitstatus").pending(name,data.head_commit.id);
         }
         var run = function() {
             for(var id in taskmaster.tasks) {
-                if(!taskmaster.inPr[id.split('|')[0]]||!taskmaster.inPr[id.split('|')[0]][id.split('|')[1]]) {
-                    delete taskmaster.tasks[id];
-                } else {
+                if(taskmaster.inPr[id.split('|')[0]] && taskmaster.inPr[id.split('|')[0]][id.split('|')[1]]) {
                     var commit = taskmaster.tasks[id];
                     delete taskmaster.tasks[id];
                     taskmaster.active=true;
                     try{
-                        require('./work')(id.split('|')[0],id.split('|')[1],commit);
+                        require('./work')(id.split('|')[0],id.split('|')[1],commit,taskmaster);
                         return;
                     } catch(e) {
                         console.log(e);

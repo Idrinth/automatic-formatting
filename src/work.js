@@ -1,6 +1,6 @@
 var nodegit = require("nodegit");
 var gitstatus = require("./gitstatus");
-module.exports = function(project,branch,commit) {
+module.exports = function(project,branch,commit,taskmaster) {
 function sleep(time) {
   var stop = new Date().getTime();
   while (new Date().getTime() < stop + time) {
@@ -22,7 +22,7 @@ var handler = function(repo) {
     sleep(1);
   }
   var Ref;
-  var files = require("./src/recursive-format")(
+  var files = require("./recursive-format")(
     "repository/" + project + "/" + branch
   );
   if(files.length>0) {
@@ -33,7 +33,7 @@ var handler = function(repo) {
       return;
   }
   repo
-    .createCommitOnHead(files, bot, bot, "prettyfiing branch")
+    .createCommitOnHead(files, require("./app-config").bot, require("./app-config").bot, "prettyfiing branch")
     .then(function(oid) {
       return repo.getRemote("origin");
     })
@@ -48,6 +48,7 @@ var handler = function(repo) {
 };
 function onError(exception) {
     taskmaster.active = false;
+    require("./gitstatus").failure(repo, commit);
     console.log(exception);
 }
 if (require("fs").existsSync("repository/" + project + "/" + branch)) {

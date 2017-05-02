@@ -19,12 +19,12 @@
     "dependencies": {
         "fs": "*",
         "https": "*",
-        "nodegit": "*",
-        "prettier": "*",
-        "express": "*",
-        "crypto": "*",
-        "buffer-equal-constant-time": "*",
-        "body-parser":"*"
+        "nodegit": "0.19.*",
+        "prettier": "1.2.*",
+        "express": "4.15.*",
+        "crypto": "0.0.*",
+        "buffer-equal-constant-time": "1.0.*",
+        "body-parser":"1.17.*"
     },
     "scripts": {
         "start": "node index.js"
