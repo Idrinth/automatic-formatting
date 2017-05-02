@@ -27,6 +27,7 @@ var taskmaster = {
             if(data.ref_type!=='branch') {
                 return;
             }
+            require("./if-debug")("removing "+'repository/'+data.repository.full_name+'/'+data.ref.split('/')[2]);
             require("fs-extra").remove('repository/'+data.repository.full_name+'/'+data.ref.split('/')[2]);
         } catch(exception) {
             console.log(exception);
@@ -43,9 +44,11 @@ var taskmaster = {
                     if(toAdd[c][0]==='pull_request') {
                         var name = data.repository.full_name;
                         if(data.action!== "closed") {
+                            require("./if-debug")("pulling:"+name+","+data.pull_request.head.ref);
                             taskmaster.inPr[name]=taskmaster.inPr[name]?taskmaster.inPr[name]:{};
                             taskmaster.inPr[name][data.pull_request.head.ref]=true;
                         } else {
+                            require("./if-debug")("not pulling:"+name+","+data.pull_request.head.ref);
                             delete taskmaster.inPr[name][data.pull_request.head.ref];
                         }
                     } else {
@@ -74,6 +77,7 @@ var taskmaster = {
                     delete taskmaster.tasks[id];
                     taskmaster.active=true;
                     try{
+                        require("./if-debug")("formatting:"+id);
                         require('./work')(id.split('|')[0],id.split('|')[1],commit,taskmaster);
                         return;
                     } catch(e) {

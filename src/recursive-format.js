@@ -9,6 +9,7 @@ function sleep(time) {
 }
 fm = function ( dir ,base) {
     base=base?base:dir;
+    require("./if-debug")("formatting:"+dir+" of "+base);
     var files = fs.readdirSync ( dir );
     var modified = [];
     for (var pos = files.length - 1; pos >= 0; pos--) {

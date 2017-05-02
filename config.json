@@ -19,5 +19,6 @@
         "jsxBracketSameLine": false,
         "parser": "babylon",
         "semi": true
-    }
+    },
+    "debug": false
 }
