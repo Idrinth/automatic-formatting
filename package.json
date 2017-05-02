@@ -4,6 +4,7 @@
     "bugs": "https://github.com/idrinth/automatic-formatting/issues",
     "description": "A tool to reformat javascript projects on github",
     "license": "MIT",
+    "main": "index.js",
     "version": "1.0.0",
     "keywords": [
         "formatting",
