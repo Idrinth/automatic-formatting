@@ -1,3 +1,5 @@
+THIS IS WIP
+
 # Automatic Formatting
 This is nodejs formatting service build on prettier, that can handle github webhooks and the github api to provide formatting during pullrequests.
 
