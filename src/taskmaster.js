@@ -13,9 +13,10 @@ var taskmaster = {
     if (!secrets || !secrets[repo]) {
       return;
     }
+  if (event === "delete") {
+      return taskmaster.remove(body);
+  }
     if (event !== "pull_request" && event !== "push") {
-      if (event === "delete") {
-      }
       return;
     }
     if (
