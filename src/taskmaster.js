@@ -34,16 +34,17 @@ var taskmaster = {
       if (data.ref_type !== "branch") {
         return;
       }
-      require("./if-debug")(
+      var debug = require("./if-debug");
+      debug(
         "removing " +
           "repository/" +
           data.repository.full_name +
           "/" +
           data.ref.split("/")[2]
       );
-      require("fs-extra").remove(
+      require("fs-extra").emptyDir(
         "repository/" + data.repository.full_name + "/" + data.ref.split("/")[2]
-      );
+      ).catch(debug);
     } catch (exception) {
       console.log(exception);
     }
