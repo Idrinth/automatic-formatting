@@ -1,6 +1,6 @@
 var nodegit = require("nodegit");
 var gitstatus = require("./gitstatus");
-module.exports = function(project,branch,commit,taskmaster) {
+module.exports = function(project,branch,commit) {
 function sleep(time) {
   var stop = new Date().getTime();
   while (new Date().getTime() < stop + time) {
@@ -30,7 +30,6 @@ var handler = function(repo) {
       gitstatus.failure (project,commit);
   } else {
       gitstatus.success (project,commit);
-      taskmaster.active = false;
       return;
   }
   repo
@@ -43,12 +42,10 @@ var handler = function(repo) {
       return repo.getBranch(branch);
     })
     .then(function(branch) {
-      taskmaster.active = false;
       return Ref.push([branch.toString() + ":" + branch.toString()], credO);
     });
 };
 function onError(exception) {
-    taskmaster.active = false;
     require("./gitstatus").failure(project, commit);
     console.log(exception);
 }

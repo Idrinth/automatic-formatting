@@ -3,7 +3,6 @@ var taskmaster = {
     tasks:{},
     inPr:{},
     toAdd:[],
-    active:false,
     add: function(repo,event,signature,body) {
         function signBlob (key, blob) {
           return 'sha1=' + require('crypto').createHmac('sha1', key).update(blob).digest('hex');
@@ -75,22 +74,18 @@ var taskmaster = {
                 if(taskmaster.inPr[id.split('|')[0]] && taskmaster.inPr[id.split('|')[0]][id.split('|')[1]]) {
                     var commit = taskmaster.tasks[id];
                     delete taskmaster.tasks[id];
-                    taskmaster.active=true;
                     try{
                         require("./if-debug")("formatting:"+id);
-                        require('./work')(id.split('|')[0],id.split('|')[1],commit,taskmaster);
+                        require('./work')(id.split('|')[0],id.split('|')[1],commit);
                         return;
                     } catch(e) {
                         console.log(e);
-                        taskmaster.active=false;
                     }
                 }
             }
         };
-        if(!taskmaster.active){
-            run();
-        }
-        require('timers').setTimeout(taskmaster.run,2500);
+        run();
+        require('timers').setTimeout(taskmaster.run,5000);
     }
 };
 module.exports = taskmaster;
