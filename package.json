@@ -8,13 +8,18 @@
     "keywords": [
         "formatting",
         "prettier",
-        "server"
+        "server",
+        "github"
     ],
     "repository": {
         "type":"git",
         "url": "https://github.com/Idrinth/automatic-formatting.git"
     },
-    "author": "Björn Büttner",
+    "author": {
+        "name": "Björn Büttner",
+        "email": "webmaster@idrinth.de",
+        "url": "https://github.com/Idrinth"
+    },
     "contributors": [],
     "dependencies": {
         "fs": "*",
