@@ -5,11 +5,13 @@
     "description": "A tool to reformat javascript projects on github",
     "license": "MIT",
     "version": "1.0.0",
+    "main": "index.js",
     "keywords": [
         "formatting",
         "prettier",
         "server",
-        "github"
+        "github",
+        "format"
     ],
     "repository": {
         "type":"git",
