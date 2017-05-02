@@ -15,7 +15,7 @@ fm = function ( dir ,base) {
     for (var pos = files.length - 1; pos >= 0; pos--) {
         var file = dir + '/' + files[pos];
         if ( fs.statSync ( file ).isDirectory () && !file.match ( /\.git$/ ) ) {
-            modified.concat(fm ( file, base ));
+            modified = modified.concat(fm ( file, base ));
         } else if ( file.match ( /\.js$/ ) ) {
             var content = fs.readFileSync ( file ).toString ();
             if ( !prettier.check ( content,format ) ) {
