@@ -43,10 +43,10 @@ var taskmaster = {
           "repository/" +
           data.repository.full_name +
           "/" +
-          data.ref.split("/")[2]
+          data.ref
       );
       require("fs-extra").emptyDir(
-        "repository/" + data.repository.full_name + "/" + data.ref.split("/")[2]
+        "repository/" + data.repository.full_name + "/" + data.ref
       ).catch(debug);
     } catch (exception) {
       console.log(exception);
