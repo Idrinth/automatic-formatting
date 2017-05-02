@@ -12,12 +12,25 @@ var taskmaster = {
             return;
         }
         if(event!=='pull_request'&&event!=='push') {
+            if(event==='delete') {
+            }
             return;
         }
         if (!require('buffer-equal-constant-time')(new Buffer(signature), new Buffer(signBlob(secrets[repo], body)))) {
             return;
         }
         taskmaster.toAdd.push([event,body]);
+    },
+    remove: function(body) {
+        try {
+            var data = JSON.parse (body);
+            if(data.ref_type!=='branch') {
+                return;
+            }
+            require("fs-extra").remove('repository/'+data.repository.full_name+'/'+data.ref.split('/')[2]);
+        } catch(exception) {
+            console.log(exception);
+        }
     },
     run: function() {
         var getNewPushes = function() {
