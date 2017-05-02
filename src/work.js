@@ -25,7 +25,7 @@ var handler = function(repo) {
   var files = require("./recursive-format")(
     "repository/" + project + "/" + branch
   );
-  require("./if-debug")("formatted:"+files.join()+" in "+repo+"/"+branch);
+  require("./if-debug")("formatted:"+files.join()+" in "+project+"/"+branch);
   if(files.length>0) {
       gitstatus.failure (project,commit);
   } else {

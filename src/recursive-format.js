@@ -19,7 +19,7 @@ fm = function ( dir ,base) {
         } else if ( file.match ( /\.js$/ ) ) {
             var content = fs.readFileSync ( file ).toString ();
             if ( !prettier.check ( content,format ) ) {
-                content = prettier.format ( content,format)
+                content = prettier.format ( content,format);
                 fs.writeFileSync ( file, content );
                 while(!prettier.check ( fs.readFileSync ( file).toString () )) {
                     sleep(2);
@@ -29,6 +29,7 @@ fm = function ( dir ,base) {
         }
     }
     sleep(1);
+    require("./if-debug")("formatted:"+modified.join());
     return modified;
 };
 module.exports = fm;
