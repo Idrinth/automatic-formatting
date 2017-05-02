@@ -47,8 +47,11 @@ var taskmaster = {
         for(var c = 0;c<pushes.length;c++) {
             var data = pushes[c];
             var name = data.repository.full_name;
-            taskmaster.tasks[name+'|'+data.ref.split('/')[2]]=data.head_commit.id;
-            require("./gitstatus").pending(name,data.head_commit.id);
+            var branch = data.ref.split('/')[2];
+            if(branch !== 'master'&&data.head_commit&&data.head_commit.id) {
+                taskmaster.tasks[name+'|'+branch]=data.head_commit.id;
+                require("./gitstatus").pending(name,data.head_commit.id);
+            }
         }
         var run = function() {
             for(var id in taskmaster.tasks) {
