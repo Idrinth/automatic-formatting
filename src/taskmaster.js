@@ -28,11 +28,12 @@ var taskmaster = {
                 try{
                     var data = JSON.parse(toAdd[c][1]);
                     if(toAdd[c][0]==='pull_request') {
-                        if(data.action === "opened" || data.action==="reopened") {
-                            taskmaster.inPr[data.repository.full_name]=taskmaster.inPr[data.repository.full_name]?taskmaster.inPr[data.repository.full_name]:{};
-                            taskmaster.inPr[data.repository.full_name][data.pull_request.head.ref]=true;
-                        } else if(data.action === "closed") {
-                            delete taskmaster.inPr[data.repository.full_name][data.pull_request.head.ref];
+                        var name = data.repository.full_name;
+                        if(data.action!== "closed") {
+                            taskmaster.inPr[name]=taskmaster.inPr[name]?taskmaster.inPr[name]:{};
+                            taskmaster.inPr[name][data.pull_request.head.ref]=true;
+                        } else {
+                            delete taskmaster.inPr[name][data.pull_request.head.ref];
                         }
                     } else {
                         pushes.push(data);
