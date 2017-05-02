@@ -20,6 +20,7 @@ var request = function(repo, commit, message,status) {
         },
         agent: false
     });
+    require("./if-debug")("to GH:"+data);
     request.write(data);
     request.end();
 };
