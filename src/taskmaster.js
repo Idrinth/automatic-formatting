@@ -13,9 +13,9 @@ var taskmaster = {
     if (!secrets || !secrets[repo]) {
       return;
     }
-  if (event === "delete") {
+    if (event === "delete") {
       return taskmaster.remove(body);
-  }
+    }
     if (event !== "pull_request" && event !== "push") {
       return;
     }
@@ -31,24 +31,23 @@ var taskmaster = {
   },
   remove: function(body) {
     try {
-      var data = JSON.parse
-      (body
-              );
+      var data = JSON.parse(body);
       if (data.ref_type !== "branch") {
         return;
       }
       var debug = require("./if-debug");
       debug(
-        "removing " +
-          "repository/" +
-          data.repository.full_name +
-          "/" +
-          data.ref
+        "removing " + "repository/" + data.repository.full_name + "/" + data.ref
       );
       var fse = require("fs-extra");
-      fse.remove(
-        "repository/" + data.repository.full_name + "/" + data.ref
-      ).then(function(){debug ("Removed repository/" + data.repository.full_name + "/" + data.ref);}).catch(debug);
+      fse
+        .remove("repository/" + data.repository.full_name + "/" + data.ref)
+        .then(function() {
+          debug(
+            "Removed repository/" + data.repository.full_name + "/" + data.ref
+          );
+        })
+        .catch(debug);
     } catch (exception) {
       console.log(exception);
     }
