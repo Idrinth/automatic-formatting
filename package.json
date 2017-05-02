@@ -9,7 +9,8 @@
         "formatting",
         "prettier",
         "server",
-        "github"
+        "github",
+        "format"
     ],
     "repository": {
         "type":"git",
