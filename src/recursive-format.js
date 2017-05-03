@@ -1,4 +1,4 @@
-fs = require("fs");
+fs = require("fs-extra");
 prettier = require("prettier");
 format = require("./app-config").prettier;
 function sleep(time) {
