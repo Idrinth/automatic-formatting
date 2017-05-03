@@ -9,3 +9,11 @@ It reacts to three different eventgroups send via webhook:
 - push: if the branch is within a pullrequest it'll be checked and if required formatted
 - pull_request: changes the flag for formatting purposes
 - delete: if a branch is deleted will also delete the checkout of it
+
+## NPM
+NPM is avaible as well, see https://www.npmjs.com/package/@idrinth/automatic-formatting.
+Installation works as usual, so
+```
+npm install @idrinth/automatic-formatting
+```
+just remember to adjust the configuration afterwards, that user does not exist.
