@@ -24,7 +24,6 @@
     },
     "contributors": [],
     "dependencies": {
-        "fs": "*",
         "fs-extra": "*",
         "https": "*",
         "nodegit": "0.19.*",
