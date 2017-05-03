@@ -20,5 +20,12 @@
         "parser": "babylon",
         "semi": true
     },
-    "debug": false
+    "debug": false,
+    "include": [
+        "\\.js$"
+    ],
+    "exclude": [
+        "\\.min\\.js$",
+        ".git"
+    ]
 }
