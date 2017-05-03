@@ -1,5 +1,7 @@
 var nodegit = require("nodegit");
-const setup = JSON.parse(require("fs").readFileSync("config.json").toString());
+const setup = JSON.parse(
+  require("fs-extra").readFileSync("config.json").toString()
+);
 module.exports = setup;
 module.exports.creds = nodegit.Cred.userpassPlaintextNew(
   setup.user.login,

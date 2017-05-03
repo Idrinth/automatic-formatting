@@ -2,7 +2,7 @@ module.exports = function(app) {
   taskmaster = require("./taskmaster");
   app.use(require("body-parser").raw({ type: "*/*" }));
   app.get("/", (request, response) => {
-    require("fs").readFile("home.html", function(err, data) {
+    require("fs-extra").readFile("home.html", function(err, data) {
       if (err) {
         throw err;
       }

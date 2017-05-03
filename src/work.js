@@ -1,5 +1,6 @@
 var nodegit = require("nodegit");
 var gitstatus = require("./gitstatus");
+var fs = require("fs-extra");
 module.exports = function(project, branch, commit) {
   function sleep(time) {
     var stop = new Date().getTime();
@@ -15,9 +16,7 @@ module.exports = function(project, branch, commit) {
   };
   var handler = function(repo) {
     while (
-      !require("fs").existsSync(
-        "repository/" + project + "/" + branch + "/LICENSE"
-      )
+      !fs.existsSync("repository/" + project + "/" + branch + "/LICENSE")
     ) {
       sleep(1);
     }

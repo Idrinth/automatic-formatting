@@ -4,7 +4,7 @@
     "bugs": "https://github.com/idrinth/automatic-formatting/issues",
     "description": "A tool to reformat javascript projects on github",
     "license": "MIT",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "main": "index.js",
     "keywords": [
         "formatting",
@@ -24,7 +24,6 @@
     },
     "contributors": [],
     "dependencies": {
-        "fs": "*",
         "fs-extra": "*",
         "https": "*",
         "nodegit": "0.19.*",

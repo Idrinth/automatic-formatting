@@ -1,4 +1,5 @@
 var secrets = require("./app-config").secrets;
+var fs = require("fs-extra");
 var taskmaster = {
   tasks: {},
   inPr: {},
@@ -39,8 +40,7 @@ var taskmaster = {
       debug(
         "removing " + "repository/" + data.repository.full_name + "/" + data.ref
       );
-      var fse = require("fs-extra");
-      fse
+      fs
         .remove("repository/" + data.repository.full_name + "/" + data.ref)
         .then(function() {
           debug(
