@@ -28,7 +28,7 @@ fm = function(dir, base) {
     var file = dir + "/" + files[pos];
     if (fs.statSync(file).isDirectory()) {
       modified = modified.concat(fm(file, base));
-    } else if (mayFile(file,base,'file',false)) {
+    } else if (may(file,base,'file',false)) {
       var content = fs.readFileSync(file).toString();
       if (!prettier.check(content, format)) {
         content = prettier.format(content, format);
