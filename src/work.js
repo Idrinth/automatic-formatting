@@ -1,4 +1,4 @@
-var nodegit = require("nodegit"      );
+var nodegit = require("nodegit");
 var gitstatus = require("./gitstatus");
 var fs = require("fs-extra");
 module.exports = function(project, branch, commit) {
@@ -14,11 +14,7 @@ module.exports = function(project, branch, commit) {
       }
     }
   };
-  var handler 
-  = function(repo
-  
-  
-  ) {
+  var handler = function(repo) {
     while (
       !fs.existsSync("repository/" + project + "/" + branch + "/LICENSE")
     ) {
