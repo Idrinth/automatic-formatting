@@ -7,15 +7,28 @@ function sleep(time) {
   }
 }
 fm = function(dir, base) {
+  may = function(file, base, type, def) {
+      var data = require("./app-config")[type];
+      var cur = file.replace(new RegExp("^" + base.replace(/\//, "\/") + "\/"), "");
+      for(var path in data) {
+          if(cur.match(new RegExp(path))) {
+              return data[path];
+          }
+      }
+      return def;
+  };
+  if(!may(dir,base,'directory',true)) {
+      return [];
+  }
   base = base ? base : dir;
   require("./if-debug")("formatting:" + dir + " of " + base);
   var files = fs.readdirSync(dir);
   var modified = [];
   for (var pos = files.length - 1; pos >= 0; pos--) {
     var file = dir + "/" + files[pos];
-    if (fs.statSync(file).isDirectory() && !file.match(/\.git$/)) {
+    if (fs.statSync(file).isDirectory()) {
       modified = modified.concat(fm(file, base));
-    } else if (file.match(/\.js$/)) {
+    } else if (mayFile(file,base,'file',false)) {
       var content = fs.readFileSync(file).toString();
       if (!prettier.check(content, format)) {
         content = prettier.format(content, format);
