@@ -21,11 +21,11 @@
         "semi": true
     },
     "debug": false,
-    "include": [
-        "\\.js$"
-    ],
-    "exclude": [
-        "\\.min\\.js$",
-        ".git"
-    ]
+    "file": {
+        "\\.min\\.js$": false,
+        "\\.js$": true
+    },
+    "directory": {
+        "\\.git": false
+    }
 }
