@@ -7,7 +7,7 @@ function sleep(time) {
   }
 }
 fm = function(dir, base) {
-  may = function(file, base, type, def) {
+  var may = function(file, base, type, def) {
       var data = require("./app-config")[type];
       var cur = file.replace(new RegExp("^" + base.replace(/\//, "\/") + "\/"), "");
       for(var path in data) {
@@ -16,6 +16,15 @@ fm = function(dir, base) {
           }
       }
       return def;
+  };
+  var getFormat = function (base) {
+    var cFile = (base+'/'+".idrinth.automatic-formatting.json").replace('//','/');
+    if(!require("fs-extra").existsSync(cFile)) {
+      return format;
+    }
+    return require("js-object-merge")(format ,JSON.parse(
+    fs.readFileSync(cFile).toString()
+  ));
   };
   base = base ? base : dir;
   if(!may(dir,base,'directory',true)) {
