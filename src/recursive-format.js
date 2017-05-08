@@ -17,10 +17,10 @@ fm = function(dir, base) {
       }
       return def;
   };
+  base = base ? base : dir;
   if(!may(dir,base,'directory',true)) {
       return [];
   }
-  base = base ? base : dir;
   require("./if-debug")("formatting:" + dir + " of " + base);
   var files = fs.readdirSync(dir);
   var modified = [];
