@@ -14,7 +14,11 @@ module.exports = function(project, branch, commit) {
       }
     }
   };
-  var handler = function(repo) {
+  var handler 
+  = function(repo
+  
+  
+  ) {
     while (
       !fs.existsSync("repository/" + project + "/" + branch + "/LICENSE")
     ) {
