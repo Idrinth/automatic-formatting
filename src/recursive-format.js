@@ -8,27 +8,34 @@ function sleep(time) {
 }
 fm = function(dir, base) {
   var may = function(file, base, type, def) {
-      var data = require("./app-config")[type];
-      var cur = file.replace(new RegExp("^" + base.replace(/\//, "\/") + "\/"), "");
-      for(var path in data) {
-          if(cur.match(new RegExp(path))) {
-              return data[path];
-          }
+    var data = require("./app-config")[type];
+    var cur = file.replace(
+      new RegExp("^" + base.replace(/\//, "\/") + "\/"),
+      ""
+    );
+    for (var path in data) {
+      if (cur.match(new RegExp(path))) {
+        return data[path];
       }
-      return def;
+    }
+    return def;
   };
-  var getFormat = function (base) {
-    var cFile = (base+'/'+".idrinth.automatic-formatting.json").replace('//','/');
-    if(!require("fs-extra").existsSync(cFile)) {
+  var getFormat = function(base) {
+    var cFile = (base + "/" + ".idrinth.automatic-formatting.json").replace(
+      "//",
+      "/"
+    );
+    if (!require("fs-extra").existsSync(cFile)) {
       return format;
     }
-    return require("js-object-merge")(format ,JSON.parse(
-    fs.readFileSync(cFile).toString()
-  ));
+    return require("js-object-merge")(
+      format,
+      JSON.parse(fs.readFileSync(cFile).toString())
+    );
   };
   base = base ? base : dir;
-  if(!may(dir,base,'directory',true)) {
-      return [];
+  if (!may(dir, base, "directory", true)) {
+    return [];
   }
   require("./if-debug")("formatting:" + dir + " of " + base);
   var files = fs.readdirSync(dir);
@@ -37,7 +44,7 @@ fm = function(dir, base) {
     var file = dir + "/" + files[pos];
     if (fs.statSync(file).isDirectory()) {
       modified = modified.concat(fm(file, base));
-    } else if (may(file,base,'file',false)) {
+    } else if (may(file, base, "file", false)) {
       var content = fs.readFileSync(file).toString();
       if (!prettier.check(content, format)) {
         content = prettier.format(content, format);
