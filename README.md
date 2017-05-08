@@ -17,3 +17,9 @@ Installation works as usual, so
 npm install @idrinth/automatic-formatting
 ```
 just remember to adjust the configuration afterwards, that user does not exist.
+
+## Configuration
+
+There are two relevant configurations. For one there is a configuration for the service, see config.json for example.
+There is also a per-project option of configuring prettier options by using a .idrinth.automatic-formatting.json file in the root of your project.
+This file does ONLY affect formatting and overwrites default-options configured in the config.json.
