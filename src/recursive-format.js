@@ -34,6 +34,12 @@ function format(dir, base,formatter,config) {
   return modified;
 };
 module.exports = function(dir) {
+    while (
+      !(fs.existsSync(dir) &&
+      fs.readdirSync(dir).length>0)
+    ) {
+      sleep(1000);
+    }
     var config = new require('./branch-config')(dir);
     format(dir, dir, new require("./formatter")(config), config);
 };

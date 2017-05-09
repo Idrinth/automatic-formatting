@@ -5,14 +5,15 @@ module.exports = function(config) {
     this.prettier = require("prettier");
     this.format = function(file) {
         var content = fs.readFileSync(file).toString();
-        if (!this.prettier.check(content)) {
+        if (this.prettier.check(content)) {
+            return false;
+        }
           content = this.prettier.format(content);
           fs.writeFileSync(file, content);
           while (!this.prettier.check(fs.readFileSync(file).toString())) {
                 sleep(1000);
           }
-      }
-        return prettier.format(content,this.config);
+          return true;
     };
     return this;
 };
