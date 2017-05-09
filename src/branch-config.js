@@ -3,31 +3,24 @@ var debug = require("./if-debug");
 var fs = require("fs-extra");
 var merge = require("js-object-merge");
 module.exports = function(base) {
-    this = config;
-    var cFile = (base + "/" + ".idrinth.automatic-formatting.json").replace(
+    var cFile = (base + "/.idrinth.automatic-formatting.json").replace(
       "//",
       "/"
     );
+    var data;
     if(fs.existsSync(cFile)) {
         var content = fs.readFileSync(cFile).toString();
         debug("project "+base+" has own configuration: " + content);
         data = JSON.parse(content);
-        if(data) {
-            this.format = merge(
-              this.format,
-              data.format?data.format:{}
-            );
-            this.file = merge(
-              this.file,
-              data.file?data.file:{}
-            );
-            this.directory = merge(
-              this.directory,
-              data.directory?data.directory:{}
-            );
+        for(var key in data) {
+            if(key !== 'format' && key !== 'file' && key !== 'directory') {
+                delete data[key];
+            }
         }
     } else {
+        data = {};
         debug("project "+base+" has no own configuration");
     }
+    this = merge(config,data);
     return this;
 };
