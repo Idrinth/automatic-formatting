@@ -1,6 +1,7 @@
 var nodegit = require("nodegit");
 var gitstatus = require("./gitstatus");
 var config = require("./app-config");
+var format = require("./recursive-format");
 module.exports = function(project, branch, commit) {
   var credO = {
     callbacks: {
@@ -11,7 +12,7 @@ module.exports = function(project, branch, commit) {
   };
   var handler = function(repo) {
     var Ref;
-    var files = require("./recursive-format")(
+    var files = format(
       "repository/" + project + "/" + branch
     );
     require("./if-debug")(

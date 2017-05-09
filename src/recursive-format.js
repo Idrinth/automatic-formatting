@@ -43,5 +43,5 @@ module.exports = function(dir) {
       sleep(1000);
     }
     var config = getConfig(dir);
-    format(dir, dir, new Formatter(config), config);
+    return format(dir, dir, new Formatter(config), config);
 };
