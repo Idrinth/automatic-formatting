@@ -2,7 +2,7 @@
     "prettier":{
         "useTabs": false,
         "printWidth": 20,
-        "tabWidth": 2,
+        "tabWidth": 3,
         "singleQuote": false,
         "trailingComma": "none",
         "bracketSpacing": true,
