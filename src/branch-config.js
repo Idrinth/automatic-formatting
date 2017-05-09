@@ -21,6 +21,5 @@ module.exports = function(base) {
         data = {};
         debug("project "+base+" has no own configuration");
     }
-    this = merge(config,data);
-    return this;
+    return merge(config,data);
 };

@@ -1,5 +1,7 @@
 var fs = require("fs-extra");
 var debug = require("./if-debug");
+var Formatter = require("./formatter");
+var getConfig = new require('./branch-config');
 function format(dir, base,formatter,config) {
   var may = function(file, base, type, def) {
     var data = config[type];
@@ -40,6 +42,6 @@ module.exports = function(dir) {
     ) {
       sleep(1000);
     }
-    var config = new require('./branch-config')(dir);
-    format(dir, dir, new require("./formatter")(config), config);
+    var config = getConfig(dir);
+    format(dir, dir, new Formatter(config), config);
 };
