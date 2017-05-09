@@ -1,20 +1,6 @@
 fs = require("fs-extra");
-module.exports = function(base) {
-  var getFormat = function(base) {
-    var cFile = (base + "/" + ".idrinth.automatic-formatting.json").replace(
-      "//",
-      "/"
-    );
-    var format = require("./app-config").prettier;
-    if (!require("fs-extra").existsSync(cFile)) {
-      return format;
-    }
-    return require("js-object-merge")(
-      format,
-      JSON.parse(fs.readFileSync(cFile).toString())
-    );
-  };
-    this.config = getFormat(base);
+module.exports = function(config) {
+    this.config = config.prettier;
     this.prettier = require("prettier");
     this.format = function(file) {
         var sleep = function (time) {
@@ -32,4 +18,5 @@ module.exports = function(base) {
       }
         return prettier.format(content,this.config);
     };
+    return this;
 };

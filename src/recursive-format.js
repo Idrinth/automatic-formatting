@@ -1,7 +1,6 @@
 var fs = require("fs-extra");
-var config = require("./app-config");
 var debug = require("./if-debug");
-function format(dir, base,formatter) {
+function format(dir, base,formatter,config) {
   var may = function(file, base, type, def) {
     var data = config[type];
     var cur = file.replace(
@@ -24,7 +23,7 @@ function format(dir, base,formatter) {
   for (var pos = files.length - 1; pos >= 0; pos--) {
     var file = dir + "/" + files[pos];
     if (fs.statSync(file).isDirectory()) {
-      modified = modified.concat(fm(file, base));
+      modified = modified.concat(fm(file, base,formatter,config));
     } else if (may(file, base, "file", false) && formatter.format(file)) {
         modified.push(
           file.replace(new RegExp("^" + base.replace(/\//, "\/") + "\/"), "")
@@ -35,5 +34,6 @@ function format(dir, base,formatter) {
   return modified;
 };
 module.exports = function(dir) {
-    format(dir, dir, new require("./formatter")(dir));
+    var config = new require('./branch-config')(dir);
+    format(dir, dir, new require("./formatter")(config), config);
 };
