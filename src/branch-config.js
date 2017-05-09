@@ -1,7 +1,6 @@
 var config = require("./app-config");
 var debug = require("./if-debug");
 var fs = require("fs-extra");
-this = require("./app-config");
 var merge = require("js-object-merge");
 module.exports = function(base) {
     this = config;

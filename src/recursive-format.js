@@ -32,7 +32,7 @@ function format(dir, base,formatter,config) {
   }
   debug("formatted:" + modified.join());
   return modified;
-};
+}
 module.exports = function(dir) {
     while (
       !(fs.existsSync(dir) &&
