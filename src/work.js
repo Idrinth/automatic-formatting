@@ -25,12 +25,7 @@ module.exports = function(project, branch, commit) {
     }
     var bot = nodegit.Signature.now(config.user.name, config.user.email);
     repo
-      .createCommitOnHead(
-        files,
-        bot,
-        bot,
-        "prettyfiing branch"
-      )
+      .createCommitOnHead(files, bot, bot, "prettyfiing branch")
       .then(function(oid) {
         return repo.getRemote("origin");
       })

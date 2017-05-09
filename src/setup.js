@@ -9,7 +9,7 @@ module.exports = function(app) {
       response.send(data.toString());
     });
   });
-  var redirect = function(request, response){
+  var redirect = function(request, response) {
     response.append("Location", "/");
     response.status(303);
     response.send("Not here...");
