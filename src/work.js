@@ -1,12 +1,8 @@
 var nodegit = require("nodegit");
 var gitstatus = require("./gitstatus");
 var fs = require("fs-extra");
+var sleep = require("thread-sleep");
 module.exports = function(project, branch, commit) {
-  function sleep(time) {
-    var stop = new Date().getTime();
-    while (new Date().getTime() < stop + time) {
-    }
-  }
   var credO = {
     callbacks: {
       credentials: function() {
@@ -18,7 +14,7 @@ module.exports = function(project, branch, commit) {
     while (
       !fs.existsSync("repository/" + project + "/" + branch + "/LICENSE")
     ) {
-      sleep(1);
+      sleep(1000);
     }
     var Ref;
     var files = require("./recursive-format")(

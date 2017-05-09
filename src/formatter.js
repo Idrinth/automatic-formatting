@@ -1,19 +1,15 @@
-fs = require("fs-extra");
+var fs = require("fs-extra");
+var sleep = require("thread-sleep");
 module.exports = function(config) {
     this.config = config.prettier;
     this.prettier = require("prettier");
     this.format = function(file) {
-        var sleep = function (time) {
-            var stop = new Date().getTime();
-            while (new Date().getTime() < stop + time) {
-            }
-          };
         var content = fs.readFileSync(file).toString();
         if (!this.prettier.check(content)) {
           content = this.prettier.format(content);
           fs.writeFileSync(file, content);
           while (!this.prettier.check(fs.readFileSync(file).toString())) {
-            sleep(2);
+                sleep(1000);
           }
       }
         return prettier.format(content,this.config);

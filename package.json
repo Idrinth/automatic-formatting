@@ -32,6 +32,7 @@
         "crypto": "0.0.*",
         "buffer-equal-constant-time": "1.0.*",
         "body-parser": "1.17.*",
-        "js-object-merge": "1.0.*"
+        "js-object-merge": "1.0.*",
+        "thread-sleep": "2.0.*"
     }
 }
