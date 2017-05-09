@@ -1,7 +1,7 @@
 {
     "prettier":{
         "useTabs": false,
-        "printWidth": 25,
+        "printWidth": 35,
         "tabWidth": 3,
         "singleQuote": false,
         "trailingComma": "none",
