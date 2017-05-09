@@ -1,49 +1,47 @@
-fs = require("fs-extra");
-prettier = require("prettier");
-format = require("./app-config").prettier;
-function sleep(time) {
-  var stop = new Date().getTime();
-  while (new Date().getTime() < stop + time) {
-  }
-}
-fm = function(dir, base) {
-  may = function(file, base, type, def) {
-      var data = require("./app-config")[type];
-      var cur = file.replace(new RegExp("^" + base.replace(/\//, "\/") + "\/"), "");
-      for(var path in data) {
-          if(cur.match(new RegExp(path))) {
-              return data[path];
-          }
+var fs = require("fs-extra");
+var debug = require("./if-debug");
+var Formatter = require("./formatter");
+var getConfig = new require('./branch-config');
+function format(dir, base,formatter,config) {
+  var may = function(file, base, type, def) {
+    var data = config[type];
+    var cur = file.replace(
+      new RegExp("^" + base.replace(/\//, "\/") + "\/"),
+      ""
+    );
+    for (var path in data) {
+      if (cur.match(new RegExp(path))) {
+        return data[path];
       }
-      return def;
+    }
+    return def;
   };
-  base = base ? base : dir;
-  if(!may(dir,base,'directory',true)) {
-      return [];
+  if (!may(dir, base, "directory", true)) {
+    return [];
   }
-  require("./if-debug")("formatting:" + dir + " of " + base);
+  debug("formatting:" + dir + " of " + base);
   var files = fs.readdirSync(dir);
   var modified = [];
   for (var pos = files.length - 1; pos >= 0; pos--) {
     var file = dir + "/" + files[pos];
     if (fs.statSync(file).isDirectory()) {
-      modified = modified.concat(fm(file, base));
-    } else if (may(file,base,'file',false)) {
-      var content = fs.readFileSync(file).toString();
-      if (!prettier.check(content, format)) {
-        content = prettier.format(content, format);
-        fs.writeFileSync(file, content);
-        while (!prettier.check(fs.readFileSync(file).toString())) {
-          sleep(2);
-        }
+      modified = modified.concat(fm(file, base,formatter,config));
+    } else if (may(file, base, "file", false) && formatter.format(file)) {
         modified.push(
           file.replace(new RegExp("^" + base.replace(/\//, "\/") + "\/"), "")
         );
-      }
     }
   }
-  sleep(1);
-  require("./if-debug")("formatted:" + modified.join());
+  debug("formatted:" + modified.join());
   return modified;
+}
+module.exports = function(dir) {
+    while (
+      !(fs.existsSync(dir) &&
+      fs.readdirSync(dir).length>0)
+    ) {
+      sleep(1000);
+    }
+    var config = getConfig(dir);
+    format(dir, dir, new Formatter(config), config);
 };
-module.exports = fm;

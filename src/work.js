@@ -1,25 +1,15 @@
 var nodegit = require("nodegit");
 var gitstatus = require("./gitstatus");
-var fs = require("fs-extra");
+var config = require("./app-config");
 module.exports = function(project, branch, commit) {
-  function sleep(time) {
-    var stop = new Date().getTime();
-    while (new Date().getTime() < stop + time) {
-    }
-  }
   var credO = {
     callbacks: {
       credentials: function() {
-        return require("./app-config").creds;
+        return config.creds;
       }
     }
   };
   var handler = function(repo) {
-    while (
-      !fs.existsSync("repository/" + project + "/" + branch + "/LICENSE")
-    ) {
-      sleep(1);
-    }
     var Ref;
     var files = require("./recursive-format")(
       "repository/" + project + "/" + branch
@@ -33,11 +23,12 @@ module.exports = function(project, branch, commit) {
       gitstatus.success(project, commit);
       return;
     }
+    var bot = nodegit.Signature.now(config.user.name, config.user.email);
     repo
       .createCommitOnHead(
         files,
-        require("./app-config").bot,
-        require("./app-config").bot,
+        bot,
+        bot,
         "prettyfiing branch"
       )
       .then(function(oid) {

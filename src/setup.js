@@ -1,5 +1,5 @@
 module.exports = function(app) {
-  taskmaster = require("./taskmaster");
+  var taskmaster = require("./taskmaster");
   app.use(require("body-parser").raw({ type: "*/*" }));
   app.get("/", (request, response) => {
     require("fs-extra").readFile("home.html", function(err, data) {
@@ -9,11 +9,12 @@ module.exports = function(app) {
       response.send(data.toString());
     });
   });
-  app.get("/*", (request, response) => {
+  var redirect = function(request, response){
     response.append("Location", "/");
     response.status(303);
     response.send("Not here...");
-  });
+  };
+  app.get("/*", redirect);
   app.post("/:user/:repository", (request, response) => {
     var repo = request.params.user + "/" + request.params.repository;
     taskmaster.add(
@@ -24,11 +25,7 @@ module.exports = function(app) {
     );
     response.send(JSON.stringify(true));
   });
-  app.post("/|/[^/]+|/[^/]+/[^/]+/.+", (request, response) => {
-    response.append("Location", "/");
-    response.status(303);
-    response.send("Not here...");
-  });
+  app.post("/|/[^/]+|/[^/]+/[^/]+/.+", redirect);
 
   app.listen(require("./app-config").port, err => {
     if (err) {
