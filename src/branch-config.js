@@ -1,13 +1,15 @@
+var config = require("./app-config");
+var debug = require("./if-debug");
+var fs = require("fs-extra");
+this = require("./app-config");
+var merge = require("js-object-merge");
 module.exports = function(base) {
-    var debug = require("./if-debug");
-    this = require("./app-config");
-    var fs = require("fs-extra");
+    this = config;
     var cFile = (base + "/" + ".idrinth.automatic-formatting.json").replace(
       "//",
       "/"
     );
     if(fs.existsSync(cFile)) {
-        var merge = require("js-object-merge");
         var content = fs.readFileSync(cFile).toString();
         debug("project "+base+" has own configuration: " + content);
         data = JSON.parse(content);
