@@ -106,11 +106,10 @@ var taskmaster = {
                     );
                   })
                   .catch(debug);
-            } else {
+                  return;
+            }
                 debug("formatting:" + id);
                 work(id.split("|")[0], id.split("|")[1], commit, taskmaster);
-            }
-            return;
           } catch (e) {
             console.log(e);
           }
