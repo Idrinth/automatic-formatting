@@ -2,6 +2,8 @@ var nodegit = require("nodegit");
 var gitstatus = require("./gitstatus");
 var config = require("./app-config");
 var format = require("./recursive-format");
+var fs = require("fs-extra");
+var debug = require("./if-debug");
 module.exports = function(project, branch, commit) {
   var credO = {
     callbacks: {
@@ -12,12 +14,8 @@ module.exports = function(project, branch, commit) {
   };
   var handler = function(repo) {
     var Ref;
-    var files = format(
-      "repository/" + project + "/" + branch
-    );
-    require("./if-debug")(
-      "formatted:" + files.join() + " in " + project + "/" + branch
-    );
+    var files = format("repository/" + project + "/" + branch);
+    debug("formatted:" + files.join() + " in " + project + "/" + branch);
     if (files.length > 0) {
       gitstatus.failure(project, commit);
     } else {
@@ -26,12 +24,7 @@ module.exports = function(project, branch, commit) {
     }
     var bot = nodegit.Signature.now(config.user.name, config.user.email);
     repo
-      .createCommitOnHead(
-        files,
-        bot,
-        bot,
-        "prettyfiing branch"
-      )
+      .createCommitOnHead(files, bot, bot, "prettyfiing branch")
       .then(function(oid) {
         return repo.getRemote("origin");
       })
@@ -44,10 +37,10 @@ module.exports = function(project, branch, commit) {
       });
   };
   function onError(exception) {
-    require("./gitstatus").failure(project, commit);
+    gitstatus.failure(project, commit);
     console.log(exception);
   }
-  if (require("fs").existsSync("repository/" + project + "/" + branch)) {
+  if (fs.existsSync("repository/" + project + "/" + branch)) {
     nodegit.Repository
       .open("repository/" + project + "/" + branch)
       .then(function(repo) {

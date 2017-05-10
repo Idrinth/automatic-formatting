@@ -1,4 +1,5 @@
 var https = require("https");
+var debug = require("./if-debug");
 var user = require("./app-config").user;
 var request = function(repo, commit, message, status) {
   var data = JSON.stringify({
@@ -20,7 +21,7 @@ var request = function(repo, commit, message, status) {
     },
     agent: false
   });
-  require("./if-debug")("to GH:" + data);
+  debug("to GH:" + data);
   request.write(data);
   request.end();
 };
