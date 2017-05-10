@@ -36,4 +36,3 @@ module.exports.creds = nodegit.Cred.userpassPlaintextNew(
   setup.user.login,
   setup.user.password
 );
-module.exports.bot = nodegit.Signature.now(setup.user.name, setup.user.email);
