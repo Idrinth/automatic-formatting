@@ -29,7 +29,8 @@ const setup = merge(
     },
     directory: {
       "\\.git": false
-    }
+    },
+    frequency: 5000
   },
   JSON.parse(fs.readFileSync("config.json").toString())
 );

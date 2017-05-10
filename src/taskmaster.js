@@ -1,4 +1,4 @@
-var secrets = require("./app-config").secrets;
+var config = require("./app-config");
 var fs = require("fs-extra");
 var crypto = require("crypto");
 var bufferEq = require("buffer-equal-constant-time");
@@ -17,7 +17,7 @@ var taskmaster = {
         "sha1=" + crypto.createHmac("sha1", key).update(blob).digest("hex")
       );
     }
-    if (!secrets || !secrets[repo]) {
+    if (!config.secrets || !config.secrets[repo]) {
       return;
     }
     if (event === "delete") {
@@ -29,7 +29,7 @@ var taskmaster = {
     if (
       !bufferEq(
         new Buffer(signature),
-        new Buffer(signBlob(secrets[repo], body))
+        new Buffer(signBlob(config.secrets[repo], body))
       )
     ) {
       return;
@@ -48,6 +48,7 @@ var taskmaster = {
     }
   },
   run: function() {
+      try{
     var getNewPushes = function() {
       var toAdd = taskmaster.toAdd;
       var pushes = [];
@@ -125,7 +126,10 @@ var taskmaster = {
       }
     };
     run();
-    timers.setTimeout(taskmaster.run, 5000);
+      } catch(e) {
+          console.log(e);
+      }
   }
 };
+timers.setInterval(taskmaster.run, config.frequency);
 module.exports = taskmaster;

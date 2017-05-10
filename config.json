@@ -27,5 +27,6 @@
     },
     "directory": {
         "\\.git": false
-    }
+    },
+    "frequency": 5000
 }
