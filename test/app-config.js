@@ -45,4 +45,44 @@ describe('app-config', function() {
       });
     });
   });
+  describe('app-config.port', function() {
+    it('app-config should have a property port', function() {
+      expect(config).to.have.property('port');
+    });
+      it('app-config.port should be a number', function() {
+        (config.port).should.be.a('number');
+      });
+  });
+  describe('app-config.prettier', function() {
+    it('app-config should have a property prettier', function() {
+      expect(config).to.have.property('prettier');
+    });
+      it('app-config.prettier should be an object', function() {
+        (config.prettier).should.be.an('object');
+      });
+  });
+  describe('app-config.debug', function() {
+    it('app-config should have a property debug', function() {
+      expect(config).to.have.property('debug');
+    });
+      it('app-config.debug should be a boolean', function() {
+        (config.debug).should.be.an('boolean');
+      });
+  });
+  describe('app-config.file', function() {
+    it('app-config should have a property file', function() {
+      expect(config).to.have.property('file');
+    });
+      it('app-config.file should be an object', function() {
+        (config.file).should.be.an('object');
+      });
+  });
+  describe('app-config.directory', function() {
+    it('app-config should have a property directory', function() {
+      expect(config).to.have.property('directory');
+    });
+      it('app-config.directory should be an object', function() {
+        (config.directory).should.be.an('object');
+      });
+  });
 });
