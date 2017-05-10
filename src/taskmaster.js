@@ -48,87 +48,83 @@ var taskmaster = {
     }
   },
   run: function() {
-      try{
-    var getNewPushes = function() {
-      var toAdd = taskmaster.toAdd;
-      var pushes = [];
-      taskmaster.toAdd = [];
-      for (var c = 0; c < toAdd.length; c++) {
-        try {
-          var data = JSON.parse(toAdd[c][1]);
-          if (toAdd[c][0] === "pull_request") {
-            var name = data.repository.full_name;
-            if (data.action !== "closed") {
-              debug("pulling:" + name + "," + data.pull_request.head.ref);
-              taskmaster.inPr[name] = taskmaster.inPr[name]
-                ? taskmaster.inPr[name]
-                : {};
-              taskmaster.inPr[name][data.pull_request.head.ref] = true;
+    try {
+      var getNewPushes = function() {
+        var toAdd = taskmaster.toAdd;
+        var pushes = [];
+        taskmaster.toAdd = [];
+        for (var c = 0; c < toAdd.length; c++) {
+          try {
+            var data = JSON.parse(toAdd[c][1]);
+            if (toAdd[c][0] === "pull_request") {
+              var name = data.repository.full_name;
+              if (data.action !== "closed") {
+                debug("pulling:" + name + "," + data.pull_request.head.ref);
+                taskmaster.inPr[name] = taskmaster.inPr[name]
+                  ? taskmaster.inPr[name]
+                  : {};
+                taskmaster.inPr[name][data.pull_request.head.ref] = true;
+              } else {
+                debug("not pulling:" + name + "," + data.pull_request.head.ref);
+                delete taskmaster.inPr[name][data.pull_request.head.ref];
+              }
             } else {
-              debug("not pulling:" + name + "," + data.pull_request.head.ref);
-              delete taskmaster.inPr[name][data.pull_request.head.ref];
+              pushes.push(data);
             }
-          } else {
-            pushes.push(data);
+          } catch (e) {
+            delete toAdd[c];
           }
-        } catch (e) {
-          delete toAdd[c];
+        }
+        return pushes;
+      };
+      var pushes = getNewPushes();
+      for (var c = 0; c < pushes.length; c++) {
+        var data = pushes[c];
+        var name = data.repository.full_name;
+        var branch = data.ref.split("/")[2];
+        if (branch !== "master" && data.head_commit && data.head_commit.id) {
+          taskmaster.tasks[name + "|" + branch] = data.head_commit.id;
+          gitstatus.pending(name, data.head_commit.id);
         }
       }
-      return pushes;
-    };
-    var pushes = getNewPushes();
-    for (var c = 0; c < pushes.length; c++) {
-      var data = pushes[c];
-      var name = data.repository.full_name;
-      var branch = data.ref.split("/")[2];
-      if (branch !== "master" && data.head_commit && data.head_commit.id) {
-        taskmaster.tasks[name + "|" + branch] = data.head_commit.id;
-        gitstatus.pending(name, data.head_commit.id);
-      }
-    }
-    var run = function() {
+      var run = function() {
         var execute = function(id) {
           taskmaster.active[id] = true;
           var commit = taskmaster.tasks[id];
           delete taskmaster.tasks[id];
           try {
-            if(commit==='delete') {
-            var path = id.split("|")[0] + "/" + id.split("|")[1];
-                debug(
-                  "removing repository/" + path
-                );
-                fs
-                  .remove("repository/" + path)
-                  .then(function() {
-                    taskmaster.active[id] = false;
-                    debug(
-                      "Removed repository/" + path
-                    );
-                  })
-                  .catch(debug);
-                  return;
+            if (commit === "delete") {
+              var path = id.split("|")[0] + "/" + id.split("|")[1];
+              debug("removing repository/" + path);
+              fs
+                .remove("repository/" + path)
+                .then(function() {
+                  taskmaster.active[id] = false;
+                  debug("Removed repository/" + path);
+                })
+                .catch(debug);
+              return;
             }
-                debug("formatting:" + id);
-                work(id.split("|")[0], id.split("|")[1], commit, taskmaster);
+            debug("formatting:" + id);
+            work(id.split("|")[0], id.split("|")[1], commit, taskmaster);
           } catch (e) {
             console.log(e);
           }
         };
-      for (var id in taskmaster.tasks) {
-        if (
-          taskmaster.inPr[id.split("|")[0]] &&
-          taskmaster.inPr[id.split("|")[0]][id.split("|")[1]] &&
-          !taskmaster.active[id]
-        ) {
+        for (var id in taskmaster.tasks) {
+          if (
+            taskmaster.inPr[id.split("|")[0]] &&
+            taskmaster.inPr[id.split("|")[0]][id.split("|")[1]] &&
+            !taskmaster.active[id]
+          ) {
             return execute(id);
+          }
         }
-      }
-    };
-    run();
-      } catch(e) {
-          console.log(e);
-      }
+      };
+      run();
+    } catch (e) {
+      console.log(e);
+    }
   }
 };
 timers.setInterval(taskmaster.run, config.frequency);
