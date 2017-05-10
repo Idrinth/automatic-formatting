@@ -1,7 +1,7 @@
 var config = require("./app-config");
 var debug = require("./if-debug");
 var fs = require("fs-extra");
-var merge = require("js-object-merge");
+var merge = require("merge").recursive;
 module.exports = function(base) {
   var cFile = (base + "/.idrinth.automatic-formatting.json").replace("//", "/");
   var data;
