@@ -2,6 +2,6 @@ var should = require('chai').should();
 describe('app-config', function() {
   var config = require('../src/app-config');
   it('config should be an object', function() {
-    work.should.be.an('object');
+    config.should.be.an('object');
   });
 });
