@@ -4,7 +4,7 @@ var config = require("./app-config");
 var format = require("./recursive-format");
 var fs = require("fs-extra");
 var debug = require("./if-debug");
-module.exports = function(project, branch, commit) {
+module.exports = function(project, branch, commit, taskmaster) {
   var credO = {
     callbacks: {
       credentials: function() {
@@ -20,6 +20,7 @@ module.exports = function(project, branch, commit) {
       gitstatus.failure(project, commit);
     } else {
       gitstatus.success(project, commit);
+      taskmaster.active[project + "|" + branch] = false;
       return;
     }
     var bot = nodegit.Signature.now(config.user.name, config.user.email);
@@ -39,6 +40,7 @@ module.exports = function(project, branch, commit) {
   function onError(exception) {
     gitstatus.failure(project, commit);
     console.log(exception);
+    taskmaster.active[project + "|" + branch] = false;
   }
   if (fs.existsSync("repository/" + project + "/" + branch)) {
     nodegit.Repository

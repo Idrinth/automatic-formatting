@@ -9,6 +9,7 @@ var gitstatus = require("./gitstatus");
 var taskmaster = {
   tasks: {},
   inPr: {},
+  active: {},
   toAdd: [],
   add: function(repo, event, signature, body) {
     function signBlob(key, blob) {
@@ -41,17 +42,7 @@ var taskmaster = {
       if (data.ref_type !== "branch") {
         return;
       }
-      debug(
-        "removing repository/" + data.repository.full_name + "/" + data.ref
-      );
-      fs
-        .remove("repository/" + data.repository.full_name + "/" + data.ref)
-        .then(function() {
-          debug(
-            "Removed repository/" + data.repository.full_name + "/" + data.ref
-          );
-        })
-        .catch(debug);
+      taskmaster.tasks[data.repository.full_name + "|" + data.ref] = "delete";
     } catch (exception) {
       console.log(exception);
     }
@@ -99,13 +90,30 @@ var taskmaster = {
       for (var id in taskmaster.tasks) {
         if (
           taskmaster.inPr[id.split("|")[0]] &&
-          taskmaster.inPr[id.split("|")[0]][id.split("|")[1]]
+          taskmaster.inPr[id.split("|")[0]][id.split("|")[1]] &&
+          !taskmaster.active[id]
         ) {
+          taskmaster.active[id] = true;
           var commit = taskmaster.tasks[id];
           delete taskmaster.tasks[id];
           try {
-            debug("formatting:" + id);
-            work(id.split("|")[0], id.split("|")[1], commit);
+            if(commit==='delete') {
+                debug(
+                  "removing repository/" + id.split("|")[0] + "/" + id.split("|")[1]
+                );
+                fs
+                  .remove("repository/" +  id.split("|")[0] + "/" + id.split("|")[1])
+                  .then(function() {
+                    taskmaster.active[id] = false;
+                    debug(
+                      "Removed repository/" +  id.split("|")[0] + "/" + id.split("|")[1]
+                    );
+                  })
+                  .catch(debug);
+            } else {
+                debug("formatting:" + id);
+                work(id.split("|")[0], id.split("|")[1], commit, taskmaster);
+            }
             return;
           } catch (e) {
             console.log(e);
