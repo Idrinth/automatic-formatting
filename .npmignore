@@ -1,0 +1,6 @@
+# Tests
+/test
+
+# Builds
+/.travis.yml
+/.idrinth.automatic-formatting.json

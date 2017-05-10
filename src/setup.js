@@ -36,4 +36,5 @@ module.exports = function(app) {
     }
     taskmaster.run();
   });
+  taskmaster.start();
 };
