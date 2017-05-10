@@ -6,6 +6,7 @@ addons:
   code_climate:
     repo_token: e66bc7e12082c61da0a2be29a3a5dd13f95ceafe14e0752c751a7d72d7fb3fa5
 sudo: required
+before_script:
   - sudo add-apt-repository ppa:ubuntu-toolchain-r/test
   - sudo apt-get update
   - sudo apt-get install libstdc++-4.9-dev
