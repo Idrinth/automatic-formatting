@@ -1,8 +1,11 @@
+var taskmaster = require("./taskmaster");
+var config = require("./app-config");
+var fs = require("fs-extra");
+var parser = require("body-parser");
 module.exports = function(app) {
-  var taskmaster = require("./taskmaster");
-  app.use(require("body-parser").raw({ type: "*/*" }));
+  app.use(parser.raw({ type: "*/*" }));
   app.get("/", (request, response) => {
-    require("fs-extra").readFile("home.html", function(err, data) {
+    fs.readFile("home.html", function(err, data) {
       if (err) {
         throw err;
       }
@@ -27,7 +30,7 @@ module.exports = function(app) {
   });
   app.post("/|/[^/]+|/[^/]+/[^/]+/.+", redirect);
 
-  app.listen(require("./app-config").port, err => {
+  app.listen(config.port, err => {
     if (err) {
       return console.log("something bad happened", err);
     }
