@@ -1,5 +1,7 @@
 var nodegit = require("nodegit");
-const setup = require("js-object-merge")(
+var fs = require("fs-extra");
+var merge = require("js-object-merge");
+const setup = merge(
   {
     user: {
       login: "",
@@ -29,7 +31,7 @@ const setup = require("js-object-merge")(
       "\\.git": false
     }
   },
-  JSON.parse(require("fs-extra").readFileSync("config.json").toString())
+  JSON.parse(fs.readFileSync("config.json").toString())
 );
 module.exports = setup;
 module.exports.creds = nodegit.Cred.userpassPlaintextNew(
