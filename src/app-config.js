@@ -1,6 +1,6 @@
 var nodegit = require("nodegit");
 var fs = require("fs-extra");
-var merge = require("js-object-merge");
+var merge = require("merge").recursive;
 const setup = merge(
   {
     user: {
