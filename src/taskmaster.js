@@ -98,15 +98,16 @@ var taskmaster = {
           delete taskmaster.tasks[id];
           try {
             if(commit==='delete') {
+            var path = id.split("|")[0] + "/" + id.split("|")[1];
                 debug(
-                  "removing repository/" + id.split("|")[0] + "/" + id.split("|")[1]
+                  "removing repository/" + path
                 );
                 fs
-                  .remove("repository/" +  id.split("|")[0] + "/" + id.split("|")[1])
+                  .remove("repository/" + path)
                   .then(function() {
                     taskmaster.active[id] = false;
                     debug(
-                      "Removed repository/" +  id.split("|")[0] + "/" + id.split("|")[1]
+                      "Removed repository/" + path
                     );
                   })
                   .catch(debug);
