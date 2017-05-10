@@ -53,6 +53,14 @@ describe("app-config", function() {
       config.port.should.be.a("number");
     });
   });
+  describe("app-config.frequency", function() {
+    it("app-config should have a property frequency", function() {
+      expect(config).to.have.property("frequency");
+    });
+    it("app-config.frequency should be a number", function() {
+      (config.frequency).should.be.a("number");
+    });
+  });
   describe("app-config.prettier", function() {
     it("app-config should have a property prettier", function() {
       expect(config).to.have.property("prettier");
