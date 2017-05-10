@@ -1,5 +1,6 @@
+var config = require("./app-config");
 module.exports = function(output) {
-  if (require("./app-config").debug) {
+  if (config.debug) {
     console.log(output);
   }
 };
