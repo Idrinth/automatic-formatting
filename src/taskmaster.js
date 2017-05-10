@@ -87,12 +87,7 @@ var taskmaster = {
       }
     }
     var run = function() {
-      for (var id in taskmaster.tasks) {
-        if (
-          taskmaster.inPr[id.split("|")[0]] &&
-          taskmaster.inPr[id.split("|")[0]][id.split("|")[1]] &&
-          !taskmaster.active[id]
-        ) {
+        var execute = function(id) {
           taskmaster.active[id] = true;
           var commit = taskmaster.tasks[id];
           delete taskmaster.tasks[id];
@@ -119,6 +114,14 @@ var taskmaster = {
           } catch (e) {
             console.log(e);
           }
+        };
+      for (var id in taskmaster.tasks) {
+        if (
+          taskmaster.inPr[id.split("|")[0]] &&
+          taskmaster.inPr[id.split("|")[0]][id.split("|")[1]] &&
+          !taskmaster.active[id]
+        ) {
+            return execute(id);
         }
       }
     };
