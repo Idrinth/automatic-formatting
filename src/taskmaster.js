@@ -13,8 +13,7 @@ var taskmaster = {
   add: function(repo, event, signature, body) {
     function signBlob(key, blob) {
       return (
-        "sha1=" +
-        crypto.createHmac("sha1", key).update(blob).digest("hex")
+        "sha1=" + crypto.createHmac("sha1", key).update(blob).digest("hex")
       );
     }
     if (!secrets || !secrets[repo]) {
@@ -68,17 +67,13 @@ var taskmaster = {
           if (toAdd[c][0] === "pull_request") {
             var name = data.repository.full_name;
             if (data.action !== "closed") {
-              debug(
-                "pulling:" + name + "," + data.pull_request.head.ref
-              );
+              debug("pulling:" + name + "," + data.pull_request.head.ref);
               taskmaster.inPr[name] = taskmaster.inPr[name]
                 ? taskmaster.inPr[name]
                 : {};
               taskmaster.inPr[name][data.pull_request.head.ref] = true;
             } else {
-              debug(
-                "not pulling:" + name + "," + data.pull_request.head.ref
-              );
+              debug("not pulling:" + name + "," + data.pull_request.head.ref);
               delete taskmaster.inPr[name][data.pull_request.head.ref];
             }
           } else {

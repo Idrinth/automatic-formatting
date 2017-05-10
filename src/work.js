@@ -14,12 +14,8 @@ module.exports = function(project, branch, commit) {
   };
   var handler = function(repo) {
     var Ref;
-    var files = format(
-      "repository/" + project + "/" + branch
-    );
-    debug(
-      "formatted:" + files.join() + " in " + project + "/" + branch
-    );
+    var files = format("repository/" + project + "/" + branch);
+    debug("formatted:" + files.join() + " in " + project + "/" + branch);
     if (files.length > 0) {
       gitstatus.failure(project, commit);
     } else {
@@ -28,12 +24,7 @@ module.exports = function(project, branch, commit) {
     }
     var bot = nodegit.Signature.now(config.user.name, config.user.email);
     repo
-      .createCommitOnHead(
-        files,
-        bot,
-        bot,
-        "prettyfiing branch"
-      )
+      .createCommitOnHead(files, bot, bot, "prettyfiing branch")
       .then(function(oid) {
         return repo.getRemote("origin");
       })
