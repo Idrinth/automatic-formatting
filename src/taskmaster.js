@@ -125,7 +125,9 @@ var taskmaster = {
     } catch (e) {
       console.log(e);
     }
+  },
+  start: function() {
+    timers.setInterval(taskmaster.run, config.frequency);
   }
 };
-timers.setInterval(taskmaster.run, config.frequency);
 module.exports = taskmaster;
