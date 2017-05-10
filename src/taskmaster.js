@@ -42,7 +42,7 @@ var taskmaster = {
         return;
       }
       debug(
-        "removing " + "repository/" + data.repository.full_name + "/" + data.ref
+        "removing repository/" + data.repository.full_name + "/" + data.ref
       );
       fs
         .remove("repository/" + data.repository.full_name + "/" + data.ref)
