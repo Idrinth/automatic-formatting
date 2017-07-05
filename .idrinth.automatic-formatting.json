@@ -16,5 +16,10 @@
     },
     "directory": {
         "\\.git": false
+    },
+    "messages": {
+        "pending": "Checking your code in just a minute.",
+        "failure": "Code doesn't seem to be formatted correctly, working on it.",
+        "success": "No changes due to formatting required, you're good."
     }
 }

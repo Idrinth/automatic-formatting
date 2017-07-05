@@ -1,18 +1,18 @@
 var https = require("https");
 var debug = require("./if-debug");
-var user = require("./app-config").user;
-var request = function(repo, commit, message, status) {
+var config = require("./app-config");
+var request = function(repo, commit, status) {
   var data = JSON.stringify({
     state: status,
     target_url: "https://github.com/idrinth/automatic-formatting",
-    description: message,
+    description: config.messages[status],
     context: "idrinth/automatic-formatting"
   });
   var request = https.request({
     hostname: "api.github.com",
     path: "/repos/" + repo + "/statuses/" + commit,
     method: "POST",
-    auth: user.login + ":" + user.password,
+    auth: config.user.login + ":" + config.user.password,
     headers: {
       "Content-Type": "application/json",
       "Content-Length": data.length,
@@ -27,22 +27,12 @@ var request = function(repo, commit, message, status) {
 };
 module.exports = {
   pending: function(repo, commit) {
-    request(repo, commit, "Checking your code in just a minute.", "pending");
+    request(repo, commit, "pending");
   },
   success: function(repo, commit) {
-    request(
-      repo,
-      commit,
-      "No changes due to formatting required, you're good.",
-      "success"
-    );
+    request(repo, commit, "success");
   },
   failure: function(repo, commit) {
-    request(
-      repo,
-      commit,
-      "Code doesn't seem to be formatted correctly, working on it.",
-      "failure"
-    );
+    request(repo, commit,  "failure" );
   }
 };
