@@ -33,6 +33,6 @@ module.exports = {
     request(repo, commit, "success");
   },
   failure: function(repo, commit) {
-    request(repo, commit,  "failure" );
+    request(repo, commit, "failure");
   }
 };

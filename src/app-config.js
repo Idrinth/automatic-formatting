@@ -2,8 +2,8 @@ var nodegit = require("nodegit");
 var fs = require("fs-extra");
 var merge = require("merge").recursive;
 var defaults = require("./default-config");
-if(!fs.existsSync()) {
-    fs.writeFileSync('config.json',JSON.stringify(defaults));
+if (!fs.existsSync()) {
+  fs.writeFileSync("config.json", JSON.stringify(defaults));
 }
 const setup = merge(
   defaults,
