@@ -36,8 +36,13 @@ function format(dir, base, formatter, config) {
   return modified;
 }
 module.exports = function(dir) {
+  var count =0;
   while (!(fs.existsSync(dir) && fs.readdirSync(dir).length > 0)) {
     sleep(1000);
+    count++;
+    if(count>10) {
+        throw "Failed after multiple tries";
+    }
   }
   var config = getConfig(dir);
   return format(dir, dir, new Formatter(config), config);
