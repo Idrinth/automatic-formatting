@@ -3,8 +3,6 @@ node_js: "node"
 git:
   depth: 3
 addons:
-  code_climate:
-    repo_token: e66bc7e12082c61da0a2be29a3a5dd13f95ceafe14e0752c751a7d72d7fb3fa5
   apt:
     sources:
       - ubuntu-toolchain-r-test
@@ -12,9 +10,8 @@ addons:
       - libstdc++-4.9-dev
 before_script:
   - npm install
-  - npm install -g istanbul
+  - npm install codeclimate-test-reporter istanbul -g
 script:
-  - istanbul cover "./node_modules/mocha/bin/mocha" --report lcovonly --print detail -- -R spec
+  - istanbul cover "./node_modules/mocha/bin/_mocha" --report lcovonly --print detail -- -R spec
 after_success:
-  - npm install -g codeclimate-test-reporter
   - codeclimate-test-reporter < ./coverage/lcov.info
