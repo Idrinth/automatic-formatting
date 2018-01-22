@@ -29,7 +29,7 @@
   "contributors": [],
   "devDependencies": {
     "chai": "4.1.*",
-    "mocha": "^3.3.0"
+    "mocha": "^5.0.0"
   },
   "dependencies": {
     "body-parser": "1.17.*",
