@@ -12,18 +12,15 @@ var taskmaster = {
   active: {},
   toAdd: [],
   add: function(repo, event, signature, body) {
-    function signBlob(key, blob) {
+    var signBlob = function (key, blob) {
       return (
         "sha1=" + crypto.createHmac("sha1", key).update(blob).digest("hex")
       );
-    }
-    if (!config.secrets || !config.secrets[repo]) {
-      return;
-    }
-    if (event === "delete") {
-      return taskmaster.remove(body);
-    }
-    if (event !== "pull_request" && event !== "push") {
+    };
+    var isConfValid = function(repo) {
+        return config.secrets && config.secrets[repo];
+    };
+    if (!isConfValid(repo)) {
       return;
     }
     if (
@@ -32,9 +29,14 @@ var taskmaster = {
         new Buffer(signBlob(config.secrets[repo], body))
       )
     ) {
-      return;
+        return;
     }
-    taskmaster.toAdd.push([event, body]);
+    if (event === "delete") {
+      return taskmaster.remove(body);
+    }
+    if (event === "pull_request" && event === "push") {
+      taskmaster.toAdd.push([event, body]);
+    }
   },
   remove: function(body) {
     try {
@@ -50,27 +52,28 @@ var taskmaster = {
   run: function() {
     try {
       var getNewPushes = function() {
+        var handleJson = function(event, data) {
+            if (event !== "pull_request") {
+              return pushes.push(data);
+            }
+            var name = data.repository.full_name;
+            if (data.action !== "closed") {
+              debug("pulling:" + name + "," + data.pull_request.head.ref);
+              taskmaster.inPr[name] = taskmaster.inPr[name]
+                ? taskmaster.inPr[name]
+                : {};
+              taskmaster.inPr[name][data.pull_request.head.ref] = true;
+              return;
+            }
+            debug("not pulling:" + name + "," + data.pull_request.head.ref);
+            delete taskmaster.inPr[name][data.pull_request.head.ref];
+        };
         var toAdd = taskmaster.toAdd;
         var pushes = [];
         taskmaster.toAdd = [];
         for (var c = 0; c < toAdd.length; c++) {
           try {
-            var data = JSON.parse(toAdd[c][1]);
-            if (toAdd[c][0] === "pull_request") {
-              var name = data.repository.full_name;
-              if (data.action !== "closed") {
-                debug("pulling:" + name + "," + data.pull_request.head.ref);
-                taskmaster.inPr[name] = taskmaster.inPr[name]
-                  ? taskmaster.inPr[name]
-                  : {};
-                taskmaster.inPr[name][data.pull_request.head.ref] = true;
-              } else {
-                debug("not pulling:" + name + "," + data.pull_request.head.ref);
-                delete taskmaster.inPr[name][data.pull_request.head.ref];
-              }
-            } else {
-              pushes.push(data);
-            }
+            handleJson(toAdd[c][0], JSON.parse(toAdd[c][1]));
           } catch (e) {
             delete toAdd[c];
           }
