@@ -4,3 +4,4 @@
 # Builds
 /.travis.yml
 /.idrinth.automatic-formatting.json
+/config.json

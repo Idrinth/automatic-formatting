@@ -58,7 +58,7 @@ describe("app-config", function() {
       expect(config).to.have.property("frequency");
     });
     it("app-config.frequency should be a number", function() {
-      (config.frequency).should.be.a("number");
+      config.frequency.should.be.a("number");
     });
   });
   describe("app-config.prettier", function() {
