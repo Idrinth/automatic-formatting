@@ -28,19 +28,19 @@
   },
   "contributors": [],
   "devDependencies": {
-    "chai": "3.5.*",
-    "mocha": "^3.3.0"
+    "chai": "4.1.*",
+    "mocha": "^5.0.0"
   },
   "dependencies": {
-    "body-parser": "1.17.*",
+    "body-parser": "1.18.*",
     "buffer-equal-constant-time": "1.0.*",
-    "crypto": "0.0.*",
-    "express": "4.15.*",
+    "crypto": "1.0.*",
+    "express": "4.16.*",
     "fs-extra": "*",
     "https": "*",
     "merge": "1.2.*",
-    "nodegit": "0.19.*",
-    "prettier": "1.2.*",
+    "nodegit": "0.20.*",
+    "prettier": "1.10.*",
     "thread-sleep": "2.0.*"
   }
 }
