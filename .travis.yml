@@ -13,7 +13,6 @@ addons:
 before_script:
   - npm install
   - npm install chai
-#  - npm install -g mocha
   - npm install -g istanbul
 script:
   - istanbul cover "./node_modules/bin/_mocha" --report lcovonly --print detail -- -R spec
