@@ -12,10 +12,9 @@ addons:
       - libstdc++-4.9-dev
 before_script:
   - npm install
-  - npm install chai
   - npm install -g istanbul
 script:
-  - istanbul cover "./node_modules/bin/mocha" --report lcovonly --print detail -- -R spec
+  - istanbul cover "./node_modules/mocha/bin/mocha" --report lcovonly --print detail -- -R spec
 after_success:
   - npm install -g codeclimate-test-reporter
   - codeclimate-test-reporter < ./coverage/lcov.info
