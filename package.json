@@ -38,7 +38,7 @@
     "fs-extra": "*",
     "https": "*",
     "merge": "1.2.*",
-    "nodegit": "0.20.*",
+    "nodegit": "0.22.*",
     "prettier": "1.12.*",
     "thread-sleep": "2.0.*"
   }
