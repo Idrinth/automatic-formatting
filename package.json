@@ -39,7 +39,7 @@
     "https": "*",
     "merge": "1.2.*",
     "nodegit": "0.22.*",
-    "prettier": "1.12.*",
+    "prettier": "1.13.*",
     "thread-sleep": "2.0.*"
   }
 }
