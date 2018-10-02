@@ -28,7 +28,7 @@
   },
   "contributors": [],
   "devDependencies": {
-    "chai": "4.1.*",
+    "chai": "4.2.*",
     "mocha": "^5.0.0"
   },
   "dependencies": {
