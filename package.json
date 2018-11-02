@@ -40,6 +40,6 @@
     "merge": "1.2.*",
     "nodegit": "0.23.*",
     "prettier": "1.14.*",
-    "thread-sleep": "2.0.*"
+    "thread-sleep": "2.1.*"
   }
 }
