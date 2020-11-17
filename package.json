@@ -37,7 +37,7 @@
     "express": "^4.16",
     "fs-extra": "*",
     "https": "*",
-    "merge": "^1.2",
+    "merge": "^2.1",
     "nodegit": "^0.26",
     "prettier": "^2.0",
     "thread-sleep": "^2.1"
